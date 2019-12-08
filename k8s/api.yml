@@ -1,0 +1,31 @@
+apiVersion: 'v1'
+kind: 'Service'
+metadata:
+  name: 'pithy-api-svc'
+spec:
+  selector:
+    app: 'pithy-api'
+  ports:
+    - port: 8000
+---
+apiVersion: 'apps/v1'
+kind: 'Deployment'
+metadata:
+  name: 'pithy-api-deployment'
+  labels:
+    app: 'pithy-api'
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: 'pithy-api'
+  template:
+    metadata:
+      labels:
+        app: 'pithy-api'
+    spec:
+      containers:
+      - name: 'pithy-api-img'
+        image: 'pithy-api-img:v1'
+        ports:
+          - containerPort: 8000
